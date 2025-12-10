@@ -1,0 +1,14 @@
+name: "Voice Only"
+description: "Voice-only control mode, gesture tracking disabled"
+
+overrides:
+  camera:
+    enabled: false
+  gesture:
+    enabled: false
+  overlay:
+    show_hand_skeleton: false
+    cursor_size: 0
+  system:
+    audio_feedback: true
+    voice_confirmation: true

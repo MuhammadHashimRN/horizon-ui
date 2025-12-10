@@ -1,0 +1,12 @@
+name: "Low Vision"
+description: "Enhanced visibility for users with low vision (WCAG 2.1 AA compliant)"
+
+overrides:
+  overlay:
+    cursor_size: 48
+    theme: "high_contrast"
+    opacity: 1.0
+    show_hand_skeleton: true
+  system:
+    audio_feedback: true
+    verbose_audio_cues: true

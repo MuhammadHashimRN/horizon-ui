@@ -1,0 +1,13 @@
+name: "Sterile Mode"
+description: "Touchless-only operation for sterile environments (e.g., surgical)"
+
+overrides:
+  gesture:
+    confidence_threshold: 0.85
+    smoothing_alpha: 0.4
+  overlay:
+    show_hand_skeleton: false
+    cursor_size: 32
+    theme: "high_contrast"
+  system:
+    audio_feedback: true
