@@ -1,0 +1,52 @@
+gestures:
+  point:
+    action: mouse_move
+    description: "Index finger pointing controls cursor"
+  pinch:
+    action: left_click
+    description: "Thumb-index pinch triggers left click"
+  fist:
+    action: right_click
+    description: "Closed fist triggers right click"
+  open_palm:
+    action: pause_tracking
+    description: "Open palm pauses gesture tracking"
+  swipe_left:
+    action: key_combo
+    keys: ["alt", "left"]
+    description: "Swipe left triggers browser back"
+  swipe_right:
+    action: key_combo
+    keys: ["alt", "right"]
+    description: "Swipe right triggers browser forward"
+  pinch_spread:
+    action: zoom_in
+    description: "Spreading pinch zooms in"
+  pinch_close:
+    action: zoom_out
+    description: "Closing pinch zooms out"
+  two_finger_scroll:
+    action: scroll
+    description: "Two-finger vertical motion scrolls"
+  thumbs_up:
+    action: confirm
+    description: "Thumbs up confirms action"
+
+app_overrides:
+  "PowerPoint":
+    swipe_left:
+      action: key_press
+      key: "left"
+    swipe_right:
+      action: key_press
+      key: "right"
+  "VLC":
+    swipe_left:
+      action: key_press
+      key: "left"
+    swipe_right:
+      action: key_press
+      key: "right"
+    open_palm:
+      action: key_press
+      key: "space"
