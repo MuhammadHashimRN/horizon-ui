@@ -1,0 +1,71 @@
+commands:
+  - pattern: ["open {app}", "launch {app}", "start {app}"]
+    action: open_application
+    params: [app]
+  - pattern: ["double click", "double tap"]
+    action: double_click
+  - pattern: ["click", "select", "press"]
+    action: left_click
+  - pattern: ["right click", "context menu"]
+    action: right_click
+  - pattern: ["scroll up", "page up"]
+    action: scroll_up
+  - pattern: ["scroll down", "page down"]
+    action: scroll_down
+  - pattern: ["type {text}", "write {text}"]
+    action: type_text
+    params: [text]
+  - pattern: ["copy", "copy that"]
+    action: key_combo
+    keys: ["ctrl", "c"]
+  - pattern: ["paste"]
+    action: key_combo
+    keys: ["ctrl", "v"]
+  - pattern: ["undo"]
+    action: key_combo
+    keys: ["ctrl", "z"]
+  - pattern: ["close", "close window"]
+    action: key_combo
+    keys: ["alt", "f4"]
+  - pattern: ["minimize", "minimize window"]
+    action: minimize_window
+  - pattern: ["maximize", "maximize window", "fullscreen"]
+    action: maximize_window
+  - pattern: ["switch window", "alt tab"]
+    action: key_combo
+    keys: ["alt", "tab"]
+  - pattern: ["next slide"]
+    action: key_press
+    key: "right"
+  - pattern: ["previous slide"]
+    action: key_press
+    key: "left"
+  - pattern: ["zoom in", "enlarge"]
+    action: zoom_in
+  - pattern: ["zoom out", "shrink"]
+    action: zoom_out
+  - pattern: ["mute", "mute microphone"]
+    action: toggle_mic_mute
+  - pattern: ["pause", "stop listening"]
+    action: pause_voice
+  - pattern: ["resume", "start listening"]
+    action: resume_voice
+  - pattern: ["brightness up", "brighter"]
+    action: brightness_up
+  - pattern: ["brightness down", "dimmer"]
+    action: brightness_down
+  - pattern: ["volume up", "louder"]
+    action: volume_up
+  - pattern: ["volume down", "softer"]
+    action: volume_down
+  - pattern: ["screenshot", "capture screen"]
+    action: screenshot
+  - pattern: ["lock", "lock screen"]
+    action: lock_screen
+  - pattern: ["help", "show commands"]
+    action: show_help_overlay
+  - pattern: ["calibrate", "recalibrate"]
+    action: start_calibration
+  - pattern: ["sterile mode", "clean mode"]
+    action: activate_profile
+    profile: sterile
