@@ -12,7 +12,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from horizon.event_bus import EventBus
 from horizon.presentation.themes import Theme, get_theme
-from horizon.types import Event, EventType, GestureResult
+from horizon.types import ActionType, Event, EventType, FusedAction, GestureResult
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +93,8 @@ class OverlayWindow(QMainWindow):
 
     def _setup_signals(self) -> None:
         self.update_signal.connect(self._handle_update)
+        self.event_bus.subscribe(EventType.HAND_DETECTED, self._on_hand_detected)
+        self.event_bus.subscribe(EventType.OS_EVENT, self._on_os_event)
         self.event_bus.subscribe(EventType.GESTURE_RESULT, self._on_gesture)
         self.event_bus.subscribe(EventType.TRANSCRIPT, self._on_transcript)
         self.event_bus.subscribe(EventType.SYSTEM_STATE, self._on_system_state)
@@ -102,6 +104,30 @@ class OverlayWindow(QMainWindow):
         self._render_timer.timeout.connect(self.update)
         self._render_timer.start(33)  # ~30 FPS
 
+    def _on_os_event(self, event: Event) -> None:
+        """Track cursor position from CursorTracker's mouse_move events."""
+        action: FusedAction = event.data
+        if action.action == ActionType.MOUSE_MOVE:
+            self.update_signal.emit({
+                "cursor_px": int(action.cursor_x),
+                "cursor_py": int(action.cursor_y),
+            })
+
+    def _on_hand_detected(self, event: Event) -> None:
+        """Update landmarks every frame for smooth skeleton rendering."""
+        data = event.data
+        if not data.get("has_hands"):
+            self.update_signal.emit({"landmarks": [], "gesture": "", "confidence": 0.0})
+            return
+        result_obj = data.get("result")
+        if result_obj and result_obj.hand_landmarks:
+            lms = result_obj.hand_landmarks[0]
+            self.update_signal.emit({
+                "landmarks": [(lm.x, lm.y) for lm in lms],
+            })
+        else:
+            self.update_signal.emit({"landmarks": [], "gesture": "", "confidence": 0.0})
+
     def _on_gesture(self, event: Event) -> None:
         data = event.data
         if isinstance(data, GestureResult):
@@ -110,7 +136,6 @@ class OverlayWindow(QMainWindow):
                 "cursor_y": data.cursor_y,
                 "gesture": data.label.value,
                 "confidence": data.confidence,
-                "landmarks": [(lm.x, lm.y) for lm in data.landmarks.landmarks] if data.landmarks else [],
             })
 
     def _on_transcript(self, event: Event) -> None:
@@ -122,12 +147,9 @@ class OverlayWindow(QMainWindow):
             self.update_signal.emit(data)
 
     def _handle_update(self, data: dict) -> None:
-        if "cursor_x" in data:
-            screen = QApplication.primaryScreen()
-            if screen:
-                geo = screen.geometry()
-                self._cursor_x = int(data["cursor_x"] * geo.width())
-                self._cursor_y = int(data["cursor_y"] * geo.height())
+        if "cursor_px" in data:
+            self._cursor_x = data["cursor_px"]
+            self._cursor_y = data["cursor_py"]
         if "gesture" in data:
             self._gesture_label = data["gesture"]
         if "confidence" in data:
@@ -270,6 +292,8 @@ class OverlayWindow(QMainWindow):
         self._is_active = active
 
     def close_overlay(self) -> None:
+        self.event_bus.unsubscribe(EventType.HAND_DETECTED, self._on_hand_detected)
+        self.event_bus.unsubscribe(EventType.OS_EVENT, self._on_os_event)
         self.event_bus.unsubscribe(EventType.GESTURE_RESULT, self._on_gesture)
         self.event_bus.unsubscribe(EventType.TRANSCRIPT, self._on_transcript)
         self.event_bus.unsubscribe(EventType.SYSTEM_STATE, self._on_system_state)
