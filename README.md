@@ -1,5 +1,14 @@
 # Horizon UI
 
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
+![PyQt6](https://img.shields.io/badge/PyQt6-6.5+-41CD52?logo=qt&logoColor=white)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-0.10-005CED)
+![ONNX Runtime](https://img.shields.io/badge/ONNX_Runtime-1.16-005CED?logo=onnx)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow)
+![CI](https://github.com/MuhammadHashimRN/horizon-ui/actions/workflows/ci.yml/badge.svg)
+
+> Final-Year Project · BS Artificial Intelligence · GIK Institute (2025–2026)
+
 **A software-only multimodal desktop overlay that enables touchless computer control through real-time hand gesture recognition and on-device speech recognition.**
 
 Horizon UI runs as a transparent overlay on top of your desktop, capturing webcam input to track hand movements and microphone input to recognize voice commands. It translates these inputs into native OS events (mouse movement, clicks, keyboard input, scrolling, zooming) — allowing users to operate their computer without physically touching any input device.
@@ -883,6 +892,11 @@ These targets are derived from the SRS document and verified by the test suite:
 9. Open a pull request
 
 ---
+
+## Author
+
+**Muhammad Hashim** — BS Artificial Intelligence, GIK Institute (2026)
+📧 muhammad808alvi@gmail.com · 🔗 [github.com/MuhammadHashimRN](https://github.com/MuhammadHashimRN)
 
 ## License
 
